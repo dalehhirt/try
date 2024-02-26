@@ -1,6 +1,7 @@
 ﻿// Copyright (c) .NET Foundation and contributors. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Collections;
 using System.Text.Json;
 using System.Web;
 
@@ -54,6 +55,28 @@ public class ContentGenerator
 <body>
 </body>
 </html>";
+
+        return Task.FromResult(value);
+    }
+    public static Task<string> GenerateEnvironmentPageAsync(HttpRequest request)
+    {
+        var environString = "";
+        foreach(DictionaryEntry property in Environment.GetEnvironmentVariables())
+        {
+            environString += $"<div>{property.Key} : {property.Value}</div><br>";
+        };
+
+
+        var value =$@"<!doctype html>
+        <html>
+        <head>
+            <meta charset=""utf-8"">
+            <title>TryDotNet Environment Values</title>
+        </head>
+        <body>
+            {environString}
+        </body>
+        </html>";
 
         return Task.FromResult(value);
     }

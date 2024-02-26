@@ -68,6 +68,14 @@ public class Program
             return Results.Content(html);
         });
 
+        app.MapGet("/env", async (HttpRequest request, HttpResponse response) =>
+        {
+            var html = await ContentGenerator.GenerateEnvironmentPageAsync(request);
+            response.ContentType = MediaTypeNames.Text.Html;
+            response.ContentLength = Encoding.UTF8.GetByteCount(html);
+            return Results.Content(html);
+        });
+
         app.MapPost("/commands", async (HttpRequest request) =>
             {
                 var kernelEvents = new List<KernelEvent>();
