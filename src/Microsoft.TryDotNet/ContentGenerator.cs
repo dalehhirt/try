@@ -81,4 +81,22 @@ public class ContentGenerator
 
         return Task.FromResult(value);
     }
+    public static Task<string> GenerateVersionPageAsync(HttpRequest request)
+    {
+        var version = Environment.GetEnvironmentVariable("TRY_DOT_NET_BUILD_ID") 
+            ?? "Unknown";
+
+        var value =$@"<!doctype html>
+        <html>
+        <head>
+            <meta charset=""utf-8"">
+            <title>TryDotNet Version</title>
+        </head>
+        <body>
+            {version}
+        </body>
+        </html>";
+
+        return Task.FromResult(value);
+    }
 }
