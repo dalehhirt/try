@@ -61,11 +61,12 @@ public class ContentGenerator
     public static Task<string> GenerateEnvironmentPageAsync(HttpRequest request)
     {
         var environString = "";
-        foreach(DictionaryEntry property in Environment.GetEnvironmentVariables())
+        
+        var sortedEntries = Environment.GetEnvironmentVariables().Cast<DictionaryEntry>().OrderBy(entry => entry.Key);
+        foreach(var entry in sortedEntries)
         {
-            environString += $"<div>{property.Key} : {property.Value}</div><br>";
-        };
-
+            environString += $"<div>{entry.Key} : {entry.Value}</div><br>";
+        }
 
         var value =$@"<!doctype html>
         <html>
